@@ -5,6 +5,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // parse do JSON completo vindo da env var
+console.log("🔑 SERVICE_ACCOUNT_KEY RAW:", process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+
+if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+  throw new Error("Falta a variável FIREBASE_SERVICE_ACCOUNT_KEY");
+}
+
 const serviceAccount = JSON.parse(
   process.env.FIREBASE_SERVICE_ACCOUNT_KEY!
 );
