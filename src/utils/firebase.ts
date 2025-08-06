@@ -4,20 +4,25 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// parse do JSON completo vindo da env var
-console.log("🔑 SERVICE_ACCOUNT_KEY RAW:", process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+const {
+  FIREBASE_PROJECT_ID,
+  FIREBASE_CLIENT_EMAIL,
+  FIREBASE_PRIVATE_KEY
+} = process.env;
 
-if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
-  throw new Error("Falta a variável FIREBASE_SERVICE_ACCOUNT_KEY");
+if (!FIREBASE_PROJECT_ID ||
+    !FIREBASE_CLIENT_EMAIL ||
+    !FIREBASE_PRIVATE_KEY) {
+  throw new Error("Variáveis de ambiente do Firebase não configuradas");
 }
 
-const serviceAccount = JSON.parse(
-  process.env.FIREBASE_SERVICE_ACCOUNT_KEY!
-);
-
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  projectId: process.env.FIREBASE_PROJECT_ID,
+  credential: admin.credential.cert({
+    projectId: FIREBASE_PROJECT_ID,
+    clientEmail: FIREBASE_CLIENT_EMAIL,
+    // reconstrói as quebras de linha corretamente
+    privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  }),
 });
 
 export const auth = admin.auth();
