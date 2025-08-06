@@ -1,0 +1,15 @@
+# Node.js dependencies
+/node_modules
+
+# Build output
+/dist
+
+# Ambiente local
+/.env
+
+# Credenciais
+/serviceAccountKey.json
+
+# Editor e sistema
+.DS_Store
+*.log
